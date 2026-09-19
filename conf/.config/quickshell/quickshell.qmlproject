@@ -1,0 +1,10 @@
+import QmlProject 2.0
+Project {
+  mainFile: "shell.qml"
+  QmlFiles: {
+      directory: "."
+    }
+    Environment {
+        "/usr/lib/qt6/qml"
+      }
+}
