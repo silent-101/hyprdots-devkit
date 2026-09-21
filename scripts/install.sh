@@ -2,8 +2,9 @@
 
 CORE_PKG_FILE="./core_pkg.txt"
 CURRENT_DIR="$(pwd)"
+ROOT_DIR="$(dirname "$CURRENT_DIR")"
 HELPER_SCRIPTS_DIR="$CURRENT_DIR/helpers"
-CONFIG_DIR="$CURRENT_DIR/configs/.configs"
+CONFIG_DIR="$ROOT_DIR/conf/.config"
 source "$HELPER_SCRIPTS_DIR/utils.sh"
 source "$HELPER_SCRIPTS_DIR/showpkginfo.sh"
 
