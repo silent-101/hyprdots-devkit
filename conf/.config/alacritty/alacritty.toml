@@ -1,0 +1,4 @@
+general.import = ["colors.toml"]
+[window]
+padding = { x = 15, y = 0 }
+dynamic_padding = true

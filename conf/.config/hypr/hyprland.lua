@@ -10,3 +10,4 @@ require("modules.input")      -- Input config
 require("modules.autostart")  -- Autostart / hooks
 require("modules.binds")      -- Keybindings
 require("modules.windowrules") -- Window & workspace rules
+require("modules.layerrules")  -- Layer blur rules

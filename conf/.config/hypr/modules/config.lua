@@ -1,94 +1,87 @@
 -- ============================================
 --  Look & Feel / hl.config()
 -- ============================================
--- https://wiki.hypr.land/Configuring/Basics/Variables/
+
+local matugen = require("colors")
+
+local function rgba(color)
+    return "rgba(" .. color:sub(5) .. "ee)"
+end
 
 hl.config({
     general = {
-        gaps_in          = 5,
-        gaps_out         = 20,
+        -- Clean gaps for a modern aestheticd
+        gaps_in          = 3,
+        gaps_out         = 2,
+        border_size      = 1,
 
-        border_size      = 2,
-
-        col              = {
-            active_border   = { colors = { "rgba(33ccffee)", "rgba(00ff99ee)" }, angle = 45 },
-            inactive_border = "rgba(595959aa)",
+        col = {
+            -- A vibrant modern gradient for the active window
+            active_border   = { colors = { rgba(matugen.primary), rgba(matugen.secondary) }, angle = 45 },
+            -- A subtle, dark border for background windows
+            inactive_border ={ colors = { rgba(matugen.secondary), rgba(matugen.primary) }, angle = 90 }
         },
 
-        resize_on_border = false,
+        -- Quality of life fixes
+        resize_on_border = true, -- Easier to resize windows with the mouse
         allow_tearing    = false,
-
         layout           = "dwindle",
     },
 
     decoration = {
-        rounding         = 10,
-        rounding_power   = 2,
+        -- Smooth, modern corner rounding
+        rounding        = 5,
+        rounding_power   = 20, -- Default circular curve
 
-        active_opacity   = 1.0,
-        inactive_opacity = 1.0,
+        -- Keep active windows prominent, let background windows fade softly
+        active_opacity   = 0.95,
+        inactive_opacity = 0.85,
 
-        blur             = {
-            enabled  = true,
-            size     = 4,
-            passes   = 3,
-            vibrancy = 0.1696,
+        -- Luxury Premium Blur Effect (Kawase Method)
+        blur = {
+            enabled = true,
+            size = 5,                 -- Slightly higher size gives smoother blur
+            passes = 4,                 -- More passes = much higher quality glass effect
+            new_optimizations = true,
+            
+            -- The Secret Sauce to fix the "awful" look:
+            vibrancy = 0.25,            -- Saturates colors bleeding through from wallpaper
+            vibrancy_darkness = 0.1,    -- Keeps dark accents looking deep
+            contrast = 1.3,             -- Boosts color differences
+            brightness = 1.1,           -- Keeps the window background from feeling dim
+            noise = 0.02,               -- Adds a premium fine-grain frosted texture
+            
+            popups = true,
+            popups_ignorealpha = 0.5,
+        }
+    },
+
+    -- Master switch for responsive performance
+    animations = {
+        enabled = false,
+    },
+
+    -- Input Tweaks for Snappy Desktop Navigation
+    input = {
+        kb_layout        = "us",
+        follow_mouse     = 1,       -- Window focus strictly follows your cursor position
+        sensitivity      = 0.0,     -- Raw mouse input
+        accel_profile    = "flat",  -- Removes mouse acceleration for precise muscle memory
+
+        touchpad = {
+            natural_scroll = true,  -- Scrolling down moves content up (macOS style)
+            tap_to_click   = true,
         },
     },
 
-    animations = {
-        enabled = true,
-    },
-})
-
--- Default curves and animations
-hl.curve("easeOutQuint", { type = "bezier", points = { { 0.23, 1 }, { 0.32, 1 } } })
-hl.curve("easeInOutCubic", { type = "bezier", points = { { 0.65, 0.05 }, { 0.36, 1 } } })
-hl.curve("linear", { type = "bezier", points = { { 0, 0 }, { 1, 1 } } })
-hl.curve("almostLinear", { type = "bezier", points = { { 0.5, 0.5 }, { 0.75, 1 } } })
-hl.curve("quick", { type = "bezier", points = { { 0.15, 0 }, { 0.1, 1 } } })
-
-hl.curve("easy", { type = "spring", mass = 1, stiffness = 238.1191, dampening = 24.21279333 })
-
-hl.animation({ leaf = "global", enabled = true, speed = 10, bezier = "default" })
-hl.animation({ leaf = "border", enabled = true, speed = 5.39, bezier = "easeOutQuint" })
-hl.animation({ leaf = "windows", enabled = true, speed = 4.79, spring = "easy" })
-hl.animation({ leaf = "windowsIn", enabled = true, speed = 4.1, spring = "easy", style = "popin 87%" })
-hl.animation({ leaf = "windowsOut", enabled = true, speed = 1.49, bezier = "linear", style = "popin 87%" })
-hl.animation({ leaf = "fadeIn", enabled = true, speed = 1.73, bezier = "almostLinear" })
-hl.animation({ leaf = "fadeOut", enabled = true, speed = 1.46, bezier = "almostLinear" })
-hl.animation({ leaf = "fade", enabled = true, speed = 3.03, bezier = "quick" })
-hl.animation({ leaf = "layers", enabled = true, speed = 3.81, bezier = "easeOutQuint" })
-hl.animation({ leaf = "layersIn", enabled = true, speed = 4, bezier = "easeOutQuint", style = "fade" })
-hl.animation({ leaf = "layersOut", enabled = true, speed = 1.5, bezier = "linear", style = "fade" })
-hl.animation({ leaf = "fadeLayersIn", enabled = true, speed = 1.79, bezier = "almostLinear" })
-hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 1.39, bezier = "almostLinear" })
-hl.animation({ leaf = "workspaces", enabled = true, speed = 1.94, bezier = "almostLinear", style = "fade" })
-hl.animation({ leaf = "workspacesIn", enabled = true, speed = 1.21, bezier = "almostLinear", style = "fade" })
-hl.animation({ leaf = "workspacesOut", enabled = true, speed = 1.94, bezier = "almostLinear", style = "fade" })
-hl.animation({ leaf = "zoomFactor", enabled = true, speed = 7, bezier = "quick" })
-
-hl.config({
+    -- Extra Layout & Misc Cleanup
     dwindle = {
         preserve_split = true,
     },
-})
 
-hl.config({
-    master = {
-        new_status = "master",
-    },
-})
-
-hl.config({
-    scrolling = {
-        fullscreen_on_one_column = true,
-    },
-})
-
-hl.config({
     misc = {
-        force_default_wallpaper = -1,
-        disable_hyprland_logo   = false,
+        force_default_wallpaper = 0,     -- Disables the default anime background
+        disable_hyprland_logo   = true,  -- Disables the logo splash screen
+        vrr                     = 1,     -- Enables Adaptive Sync/G-Sync if your monitor supports it
     },
 })

@@ -33,3 +33,7 @@ hl.window_rule({
     move  = "20 monitor_h-120",
     float = true,
 })
+hl.window_rule({
+    match = { class = "^(.*)$" },
+    opacity = "0.85 override 0.85 override",
+})

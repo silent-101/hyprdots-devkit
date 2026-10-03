@@ -74,6 +74,7 @@ swappy
 nwg-look
 qt6ct
 kvantum
+matugen-bin
 qt6-wayland
 
 
